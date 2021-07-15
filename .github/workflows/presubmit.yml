@@ -4,81 +4,72 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 12 * * *'
+    - cron: '0 12 * * 0'
 
 jobs:
   cleanliness:
     name: Cleanliness Checks
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - name: 🛎️ Checkout
         uses: actions/checkout@v2
 
-      - name: 📥 Install Doxygen and Graphviz
-        run: sudo apt-get -y install doxygen graphviz
+      - name: 🛎️ Checkout NCC (naming convention checker)
+        uses: actions/checkout@v2
+        with:
+          repository: 'nithinn/ncc'
+          path: 'ncc'
 
-      - name: 📥 Install cspell
-        run: sudo npm install -g cspell@4.0.38
+      - name: 🔎 Check "${{ github.event.repository.name }}" directory
+        run: test -d "${{ github.event.repository.name }}"
+
+      - name: 📥 Install Doxygen and Graphviz
+        run: sudo apt -y install doxygen graphviz
+
+      - name: 📥 Install libclang-11-dev (for name style check)
+        run: sudo apt install libclang-11-dev
+
+      - name: 📥 Install cpplint
+        run: python3 -m pip install cpplint==1.5.5
+
+      - name: 📥 Install pip package 'clang' & 'pyyaml' (for ncc)
+        run: python3 -m pip install clang pyyaml
 
       - name: 🧹 Lint
-        run: echo "No command for this yet"
-
-      - name: 🔤 Spellcheck
-        run: echo "No command for this yet"
-
-      - name: 📖 Documentation
-        run: echo "No command for this yet"
+        run: |
+             cpplint ${{ github.event.repository.name }}/*/*.cpp \
+                     ${{ github.event.repository.name }}/*/*.hpp
 
       - name: 📃 Check Variable Names
-        run: echo "No command for this yet"
+        run: |
+             ./ncc/ncc.py --recurse \
+             --path ${{ github.event.repository.name }} \
+             --style .naming.style | tee ncc.stderr
+             [ ! -s ncc.stderr ]
+
+      # NOTE: Doxygen only streams to stderr when documenation warnings or
+      # errors occur. Usually it will finish and continue past those warnings
+      # and errors, which is where doxygen.stderr comes in. We test that
+      # the file is not empty, meaning that we did not see any warnings come up
+      # when running doxygen. If it is empty then return success code 0,
+      # otherwise, 1 and fail the presubmit test.
+      - name: 📖 Documentation
+        working-directory: docs
+        run: |
+             sed \
+               -i 's/RESERVED_REPO_NAME/${{ github.event.repository.name }}/g' \
+               doxygen.conf
+             doxygen doxygen.conf 2> doxygen.stderr
+             cat doxygen.stderr
+             [ ! -s doxygen.stderr ]
 
       - name: 🚀 Deploy
         uses: JamesIves/github-pages-deploy-action@3.7.1
-        # Only Deploy to gh-pages on master branch event
-        if: ${{ github.ref == 'refs/heads/master' &&
+        # Only Deploy to gh-pages on main branch event
+        if: ${{ github.ref == 'refs/heads/main' &&
                 github.event_name == 'push' }}
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
           FOLDER: .
           CLEAN: true
-
-  unit_tests:
-    name: Unit Tests + Coverage
-    runs-on: ubuntu-18.04
-
-    steps:
-      - name: 🛎️ Checkout
-        uses: actions/checkout@v2
-
-      - name: 📥 Install Cpp Coveralls
-        run: pip install --user cpp-coveralls
-
-      - name: 🧪 Run Tests
-        run: echo "no test script yet"
-
-      - name: 🩺 Code Coverage
-        run: echo "no coverage script yet"
-
-      - name: 🚀 Send Coverage to Codecov.io
-        uses: codecov/codecov-action@v1
-        with:
-          file: projects/continuous_integration/build/test/coverage/coverage.xml
-          name: Full Platform Unit Tests
-
-      - name: 🗄️ Archive code coverage results
-        uses: actions/upload-artifact@v2
-        with:
-          name: code-coverage-report
-          path: projects/continuous_integration/build/test/coverage/coverage.xml
-
-  examples_checks:
-    name: Build Examples
-    runs-on: ubuntu-18.04
-
-    steps:
-      - name: 🛎️ Checkout
-        uses: actions/checkout@v2
-
-      - name: 🛠️ Build Examples
-        run: echo "No build examples script yet"
