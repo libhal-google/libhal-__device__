@@ -55,13 +55,7 @@ jobs:
       # otherwise, 1 and fail the presubmit test.
       - name: 📖 Documentation
         working-directory: docs
-        run: |
-             sed \
-               -i 's/RESERVED_REPO_NAME/${{ github.event.repository.name }}/g' \
-               doxygen.conf
-             doxygen doxygen.conf 2> doxygen.stderr
-             cat doxygen.stderr
-             [ ! -s doxygen.stderr ]
+        run: ./build_docs.sh
 
       - name: 🚀 Deploy
         uses: JamesIves/github-pages-deploy-action@3.7.1
