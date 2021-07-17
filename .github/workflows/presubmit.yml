@@ -47,12 +47,6 @@ jobs:
              --style .naming.style | tee ncc.stderr
              [ ! -s ncc.stderr ]
 
-      # NOTE: Doxygen only streams to stderr when documenation warnings or
-      # errors occur. Usually it will finish and continue past those warnings
-      # and errors, which is where doxygen.stderr comes in. We test that
-      # the file is not empty, meaning that we did not see any warnings come up
-      # when running doxygen. If it is empty then return success code 0,
-      # otherwise, 1 and fail the presubmit test.
       - name: 📖 Documentation
         working-directory: docs
         run: ./build_docs.sh
@@ -67,3 +61,50 @@ jobs:
           BRANCH: gh-pages
           FOLDER: .
           CLEAN: true
+
+  tests_and_builds:
+    name: Test ➡️ Coverage ➡️ Build
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: 🐍 Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install GCC
+        run: |
+             sudo add-apt-repository 'deb http://mirrors.kernel.org/ubuntu hirsute main universe'
+             sudo apt update
+             sudo apt install g++-11
+
+      - name: 📥 Install Sammy
+        run: python3 -m pip install --user --upgrade sammy-sjsu-dev2
+
+      - name: ✨ Create new project
+        run: sammy start project
+
+      - name: 📦 Install ${{ github.repository }} library
+        working-directory: project
+        run: |
+             sammy install --tag "${{ github.head_ref }}" "https://github.com/${{ github.repository }}.git"
+
+      - name: 🧪 Run Tests
+        working-directory: project/packages/${{ github.event.repository.name }}
+        run: sammy build-test -r "tests/unity.test.cpp" -c "g++-11"
+
+      - name: 🩺 Code Coverage
+        working-directory: project/packages/${{ github.event.repository.name }}
+        run: echo "no coverage script yet"
+
+      - name: 🚀 Send Coverage to Codecov.io
+        uses: codecov/codecov-action@v1
+        with:
+          file: projects/continuous_integration/build/test/coverage/coverage.xml
+          name: Full Platform Unit Tests
+
+      - name: 🗄️ Archive code coverage results
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage-report
+          path: projects/continuous_integration/build/test/coverage/coverage.xml

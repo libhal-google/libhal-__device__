@@ -2,6 +2,7 @@
 
 #include <exception>
 #include <libcore/module.hpp>
+#include <stdexcept>
 
 /// Delete this file in a real library implementation. The following code is
 /// here to verify that libbasis's CI is working correctly
@@ -10,6 +11,12 @@ class DeviceDriver : sjsu::Module<>
  public:
   /// Default value for DeviceDriver objects
   constexpr static int kDefaultValue = 15;
+
+  /// Initialize DeviceDriver
+  void ModuleInitialize() override
+  {
+    // Do initialization here ...
+  }
 
   /// Set the value of the device driver
   ///
