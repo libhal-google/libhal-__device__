@@ -8,7 +8,7 @@ on:
 
 jobs:
   cleanliness:
-    name: Cleanliness Checks
+    name: Run Cleanliness Checks
     runs-on: ubuntu-20.04
     steps:
       - name: 🛎️ Checkout
@@ -22,9 +22,6 @@ jobs:
 
       - name: 🔎 Check "${{ github.event.repository.name }}" directory
         run: test -d "${{ github.event.repository.name }}"
-
-      - name: 📥 Install Doxygen and Graphviz
-        run: sudo apt -y install doxygen graphviz
 
       - name: 📥 Install libclang-11-dev (for name style check)
         run: sudo apt install libclang-11-dev
@@ -47,23 +44,8 @@ jobs:
              --style .naming.style | tee ncc.stderr
              [ ! -s ncc.stderr ]
 
-      - name: 📖 Documentation
-        working-directory: docs
-        run: ./build_docs.sh
-
-      - name: 🚀 Deploy
-        uses: JamesIves/github-pages-deploy-action@3.7.1
-        # Only Deploy to gh-pages on main branch event
-        if: ${{ github.ref == 'refs/heads/main' &&
-                github.event_name == 'push' }}
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: .
-          CLEAN: true
-
-  tests_and_builds:
-    name: Test ➡️ Coverage ➡️ Build
+  tests:
+    name: Run Tests
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -72,7 +54,7 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Install GCC
+      - name: 📥 Install GCC 11
         run: |
              sudo add-apt-repository 'deb http://mirrors.kernel.org/ubuntu hirsute main universe'
              sudo apt update
@@ -86,25 +68,16 @@ jobs:
 
       - name: 📦 Install ${{ github.repository }} library
         working-directory: project
+        if: github.head_ref != ''
         run: |
              sammy install --tag "${{ github.head_ref }}" "https://github.com/${{ github.repository }}.git"
+
+      - name: 📦 Install ${{ github.repository }} library
+        working-directory: project
+        if: github.head_ref == ''
+        run: |
+             sammy install "https://github.com/${{ github.repository }}.git"
 
       - name: 🧪 Run Tests
         working-directory: project/packages/${{ github.event.repository.name }}
         run: sammy build-test -r "tests/unity.test.cpp" -c "g++-11"
-
-      - name: 🩺 Code Coverage
-        working-directory: project/packages/${{ github.event.repository.name }}
-        run: echo "no coverage script yet"
-
-      - name: 🚀 Send Coverage to Codecov.io
-        uses: codecov/codecov-action@v1
-        with:
-          file: projects/continuous_integration/build/test/coverage/coverage.xml
-          name: Full Platform Unit Tests
-
-      - name: 🗄️ Archive code coverage results
-        uses: actions/upload-artifact@v2
-        with:
-          name: code-coverage-report
-          path: projects/continuous_integration/build/test/coverage/coverage.xml
