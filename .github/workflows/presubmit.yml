@@ -8,76 +8,19 @@ on:
 
 jobs:
   cleanliness:
-    name: Run Cleanliness Checks
+    name: 🧼 Run Cleanliness Checks
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: SJSU-Dev2/SJSU-Dev2v3/actions/cleanliness@main
+  tests:
+    name: 🧪 Run Tests
     runs-on: ubuntu-20.04
     steps:
       - name: 🛎️ Checkout
         uses: actions/checkout@v2
-
-      - name: 🛎️ Checkout NCC (naming convention checker)
-        uses: actions/checkout@v2
-        with:
-          repository: 'nithinn/ncc'
-          path: 'ncc'
-
-      - name: 🔎 Check "${{ github.event.repository.name }}" directory
-        run: test -d "${{ github.event.repository.name }}"
-
-      - name: 📥 Install libclang-11-dev (for name style check)
-        run: sudo apt install libclang-11-dev
-
-      - name: 📥 Install cpplint
-        run: python3 -m pip install cpplint==1.5.5
-
-      - name: 📥 Install pip package 'clang' & 'pyyaml' (for ncc)
-        run: python3 -m pip install clang pyyaml
-
-      - name: 🧹 Lint
-        run: |
-             cpplint ${{ github.event.repository.name }}/*/*.cpp \
-                     ${{ github.event.repository.name }}/*/*.hpp
-
-      - name: 📃 Check Variable Names
-        run: |
-             ./ncc/ncc.py --recurse \
-             --path ${{ github.event.repository.name }} \
-             --style .naming.style | tee ncc.stderr
-             [ ! -s ncc.stderr ]
-
-  tests:
-    name: Run Tests
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
       - name: 🐍 Set up Python 3.9
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
-
-      - name: 📥 Install GCC 11
-        run: |
-             sudo add-apt-repository 'deb http://mirrors.kernel.org/ubuntu hirsute main universe'
-             sudo apt update
-             sudo apt install g++-11
-
-      - name: 📥 Install Sammy
-        run: python3 -m pip install --user --upgrade sammy-sjsu-dev2
-
-      - name: ✨ Create new project
-        run: sammy start project
-
-      - name: 📦 Install ${{ github.repository }} library
-        working-directory: project
-        if: github.head_ref != ''
-        run: |
-             sammy install --tag "${{ github.head_ref }}" "https://github.com/${{ github.repository }}.git"
-
-      - name: 📦 Install ${{ github.repository }} library
-        working-directory: project
-        if: github.head_ref == ''
-        run: |
-             sammy install "https://github.com/${{ github.repository }}.git"
-
-      - name: 🧪 Run Tests
-        working-directory: project/packages/${{ github.event.repository.name }}
-        run: sammy build-test -r "tests/unity.test.cpp" -c "g++-11"
+      - uses: SJSU-Dev2/SJSU-Dev2v3/actions/run_tests@main
