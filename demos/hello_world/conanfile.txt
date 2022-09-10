@@ -1,0 +1,7 @@
+[requires]
+libbasis/0.0.1
+
+[generators]
+CMakeToolchain
+CMakeDeps
+VirtualRunEnv
