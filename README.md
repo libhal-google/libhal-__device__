@@ -1,4 +1,19 @@
+<div align="center">
+<img height="250" src="https://raw.githubusercontent.com/libhal/.github/main/profile/logo.png">
+</div>
+
 # libhal-library
+
+[![✅ Checks](https://github.com/libhal/libhal-library/actions/workflows/ci.yml/badge.svg)](https://github.com/libhal/libhal-library/actions/workflows/ci.yml)
+[![Coverage](https://libhal.github.io/libhal-library/coverage/coverage.svg)](https://libhal.github.io/libhal-library/coverage/)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/b084e6d5962d49a9afcb275d62cd6586)](https://www.codacy.com/gh/libhal/libhal-library/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=libhal/libhal-library&amp;utm_campaign=Badge_Grade)
+[![GitHub stars](https://img.shields.io/github/stars/libhal/libhal-library.svg)](https://github.com/libhal/libhal-library/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/libhal/libhal-library.svg)](https://github.com/libhal/libhal-library/network)
+[![GitHub issues](https://img.shields.io/github/issues/libhal/libhal.svg)](https://github.com/libhal/libhal/issues)
+[![Latest Version](https://libhal.github.io/libhal-library/latest_version.svg)](https://github.com/libhal/libhal-library/blob/main/conanfile.py)
+[![ConanCenter Version](https://repology.org/badge/version-for-repo/conancenter/libhal-library.svg)](https://conan.io/center/libhal-library)
+
+Replace the contents below with the README information for your library.
 
 This is a template library for libhal drivers. It can be used for processor,
 target, device, utility and interface libraries. In order to use it, you'll
