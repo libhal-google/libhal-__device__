@@ -1,7 +1,6 @@
 #include <array>
 
-#include <libhal-tmpxxx/tmp102.hpp>
-#include <libhal/i2c.hpp>
+#include <libhal-library/library.hpp>
 
 int main()
 {

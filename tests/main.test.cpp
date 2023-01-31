@@ -1,8 +1,8 @@
-namespace hal::tmpxxx {
-extern void tmp102_test();
-}  // namespace hal::tmpxxx
+namespace hal::library {
+extern void library_test();
+}  // namespace hal::library
 
 int main()
 {
-  hal::tmpxxx::tmp102_test();
+  hal::library::library_test();
 }
