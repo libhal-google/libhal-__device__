@@ -4,7 +4,6 @@
 
 int main()
 {
-  using namespace std::literals;
 }
 
 namespace boost {
