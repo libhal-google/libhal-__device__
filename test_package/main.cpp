@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <exception>
 
 #include <libhal-library/library.hpp>
 
