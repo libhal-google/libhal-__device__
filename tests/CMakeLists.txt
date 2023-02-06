@@ -25,9 +25,7 @@ list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
 set(CMAKE_BUILD_TYPE "Debug")
 
 find_package(ut REQUIRED CONFIG)
-find_package(libhal REQUIRED CONFIG)
-find_package(libhal-mock REQUIRED CONFIG)
-find_package(libhal-util REQUIRED CONFIG)
+find_package(libhal-library REQUIRED CONFIG)
 
 add_executable(${PROJECT_NAME}
   library.test.cpp
@@ -55,6 +53,4 @@ target_link_options(${PROJECT_NAME} PRIVATE
   -fsanitize=address)
 target_link_libraries(${PROJECT_NAME} PRIVATE
   Boost::ut
-  libhal::libhal
-  libhal::util
-  libhal::mock)
+  libhal::library)

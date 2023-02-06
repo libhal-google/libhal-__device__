@@ -1,7 +1,6 @@
 #pragma once
 
 #include <libhal/functional.hpp>
-#include <libhal/i2c.hpp>
 #include <libhal/serial.hpp>
 #include <libhal/steady_clock.hpp>
 
