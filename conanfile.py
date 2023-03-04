@@ -11,7 +11,7 @@ required_conan_version = ">=1.50.0"
 
 class LibhalLibraryConan(ConanFile):
     name = "libhal-library"
-    version = "0.3.1" # Set version to 0.1.0 for initial release
+    version = "0.1.0"
     license = "Apache-2.0"
     url = "https://github.com/conan-io/conan-center-index"
     homepage = "https://github.com/libhal/libhal-library"
@@ -37,8 +37,8 @@ class LibhalLibraryConan(ConanFile):
         }
 
     def requirements(self):
-        self.requires("libhal/0.3.5")
-        self.requires("libhal-util/0.3.9")
+        self.requires("libhal/[^1.0.0]")
+        self.requires("libhal-util/[^1.0.0]")
 
     def validate(self):
         if self.settings.get_safe("compiler.cppstd"):
