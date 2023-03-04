@@ -1,4 +1,3 @@
-#include <libhal-tmpxxx/tmp102.hpp>
 #include <libhal-util/serial.hpp>
 #include <libhal-util/steady_clock.hpp>
 
@@ -11,16 +10,12 @@ hal::status application(hardware_map& p_map)
 
   auto& clock = *p_map.clock;
   auto& console = *p_map.console;
-  auto& i2c = *p_map.i2c;
 
-  hal::print(console, "tmp102 Application Starting...\n\n");
-  auto tmp102 = HAL_CHECK(hal::tmpxxx::tmp102::create(i2c));
+  hal::print(console, "Demo Application Starting...\n\n");
 
   while (true) {
     HAL_CHECK(hal::delay(clock, 500ms));
-    hal::print(console, "Reading temperature... ");
-    auto temperature = HAL_CHECK(tmp102.read()).temperature;
-    hal::print<32>(console, "measured temperature = %f °C\n", temperature);
+    hal::print(console, "Hello, world\n");
   }
 
   return hal::success();
