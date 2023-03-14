@@ -30,7 +30,7 @@ rename "library" are in the following files:
 │   ├── 👉 CMakeLists.txt
 │   ├── applications
 │   │   └── 📛 library.cpp
-│   ├── 👉 conanfile.txt
+│   ├── 👉 conanfile.py
 │   ├── hardware_map.hpp
 │   ├── main.cpp
 │   ├── newlib.cpp
@@ -66,14 +66,14 @@ rename "library" are in the following files:
 │   └── main.cpp
 └── tests
     ├── 👉 CMakeLists.txt
-    ├── 👉 conanfile.txt
+    ├── conanfile.txt
     ├── libhal.tweaks.hpp
     ├── 📛 library.test.cpp
     ├── main.test.cpp
     └── run.sh
 ```
 
-* 👉 = Rename instances of "library" to your library name
+* 👉 = Rename instances of "library" to an appropriate name
 * 📛 = Same as 👉 but also rename the file
 * ✍️  = Means to update these files with the correct information needed
 
