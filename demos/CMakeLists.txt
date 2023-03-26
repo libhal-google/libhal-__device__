@@ -3,10 +3,10 @@ cmake_minimum_required(VERSION 3.20)
 project(demos VERSION 0.0.1 LANGUAGES CXX)
 
 find_package(libhal-lpc40xx REQUIRED CONFIG)
-find_package(libhal-library REQUIRED CONFIG) # replace library name
+find_package(libhal-__device__ REQUIRED CONFIG)
 find_package(libhal-util REQUIRED CONFIG)
 
-set(DEMOS library)
+set(DEMOS __device__)
 set(TARGETS lpc4078 lpc4074)
 
 foreach(target IN LISTS TARGETS)
@@ -25,7 +25,7 @@ foreach(target IN LISTS TARGETS)
         target_link_options(${current_project} PRIVATE -u _printf_float)
         target_link_libraries(${current_project} PRIVATE
             libhal::${target}
-            libhal::library # replace library
+            libhal::__device__
             libhal::util)
         arm_post_build(${current_project})
     endforeach()

@@ -1,0 +1,40 @@
+name: 🖋️ Update package name
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  update_name:
+    name: 🖋️ Update package name
+    runs-on: ubuntu-latest
+    if: github.repository != 'libhal/libhal-__device__'
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - run: sudo apt install rename
+
+      - name: Get device name from repo name
+        id: device_name
+        run: echo ${{ github.event.repository.name }} | sed -En "s/libhal-(.*)/device_name=\1/p" >> $GITHUB_ENV
+
+      - name: Replace placeholder's in files
+        run: find . -type f -not -path '*/\.git/*' -exec sed -i "s/__device__/${{ env.device_name }}/g" {} +
+
+      - name: Replace placeholder's in directory names
+        run: find . -type d -not -path '*/\.git/*' | xargs -r rename "s/__device__/${{ env.device_name }}/g"
+
+      - name: Replace placeholder's in file names
+        run: find . -type f -not -path '*/\.git/*' | xargs -r rename "s/__device__/${{ env.device_name }}/g"
+
+      - name: Remove update_name.yml file
+        run: rm .github/workflows/update_name.yml
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          title: "Rename device package to libhal-${{ env.device_name }}"

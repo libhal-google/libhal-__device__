@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <exception>
 
-#include <libhal-library/library.hpp>
+#include <libhal-__device__/__device__.hpp>
 
 int main()
 {
