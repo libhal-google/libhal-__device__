@@ -13,3 +13,7 @@
 // limitations under the License.
 
 #pragma once
+
+namespace hal::__device__ {
+// Add API here!
+}  // namespace hal::__device__

@@ -21,10 +21,8 @@ class demos(ConanFile):
     generators = "CMakeToolchain", "CMakeDeps", "VirtualBuildEnv"
 
     def requirements(self):
-        self.requires("libhal-lpc40/[^1.0.0]")
+        self.requires("libhal-lpc40/2.0.0-alpha.3")
         self.requires("libhal-__device__/0.0.1")
-        self.tool_requires("gnu-arm-embedded-toolchain/11.3.0")
-        self.tool_requires("cmake-arm-embedded/0.1.1")
 
     def layout(self):
         cmake_layout(self)
