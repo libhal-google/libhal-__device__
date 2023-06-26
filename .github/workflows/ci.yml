@@ -27,7 +27,6 @@ jobs:
   ci:
     uses: libhal/ci/.github/workflows/library.yml@3.0.3
     with:
-      library: libhal-__device__
       coverage: true
     secrets: inherit
   deploy:
