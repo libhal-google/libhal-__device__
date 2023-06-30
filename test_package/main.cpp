@@ -23,6 +23,7 @@
 
 int main()
 {
+  hal::__device__::__device___replace_me bar;
 }
 
 namespace boost {

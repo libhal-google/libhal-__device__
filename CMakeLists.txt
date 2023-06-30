@@ -19,10 +19,6 @@ project(libhal-__device__ VERSION 0.0.1 LANGUAGES CXX)
 find_package(libhal REQUIRED CONFIG)
 find_package(libhal-util REQUIRED CONFIG)
 
-if(NOT BUILD_TESTING STREQUAL OFF)
-  add_subdirectory(tests)
-endif()
-
 add_library(libhal-__device__ src/__device__.cpp)
 
 target_include_directories(libhal-__device__ PUBLIC include)
@@ -32,5 +28,9 @@ target_link_libraries(libhal-__device__ PRIVATE
   libhal::libhal
   libhal::util
 )
+
+if(NOT BUILD_TESTING STREQUAL OFF)
+  add_subdirectory(tests)
+endif()
 
 install(TARGETS libhal-__device__)

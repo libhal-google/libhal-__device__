@@ -1,3 +1,4 @@
 #include "libhal-__device__/__device__.hpp"
 
-// Add code implementation here!
+namespace hal::__device__ {
+}  // namespace hal::__device__
