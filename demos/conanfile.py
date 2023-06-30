@@ -17,7 +17,7 @@ from conan.tools.cmake import CMake, cmake_layout
 
 
 class demos(ConanFile):
-    settings = "compiler", "build_type"
+    settings = "compiler", "build_type", "os", "arch"
     generators = "CMakeToolchain", "CMakeDeps", "VirtualBuildEnv"
     options = {"platform": ["ANY"]}
     default_options = {"platform": "unspecified"}
