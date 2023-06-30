@@ -19,13 +19,21 @@ from conan.tools.cmake import CMake, cmake_layout
 class demos(ConanFile):
     settings = "compiler", "build_type"
     generators = "CMakeToolchain", "CMakeDeps", "VirtualBuildEnv"
+    options = {"platform": ["ANY"]}
+    default_options = {"platform": "unspecified"}
+
+    def build_requirements(self):
+        self.tool_requires("libhal-cmake-util/1.0.0")
 
     def requirements(self):
-        self.requires("libhal-lpc40/2.0.0-alpha.3")
+        if str(self.options.platform).startswith("lpc40"):
+            self.requires("libhal-lpc40/2.0.0-alpha.3")
         self.requires("libhal-__device__/0.0.1")
+        self.requires("libhal-util/[^2.0.0]")
 
     def layout(self):
-        cmake_layout(self)
+        platform_directory = "build/" + str(self.options.platform)
+        cmake_layout(self, build_folder=platform_directory)
 
     def build(self):
         cmake = CMake(self)

@@ -16,31 +16,42 @@ cmake_minimum_required(VERSION 3.20)
 
 project(demos VERSION 0.0.1 LANGUAGES CXX)
 
-find_package(libhal-lpc40 REQUIRED CONFIG)
+set(platform_library $ENV{LIBHAL_PLATFORM_LIBRARY})
+set(platform $ENV{LIBHAL_PLATFORM})
+
+message(WARNING "${platform_library}")
+
+if("${platform_library}" STREQUAL "")
+    message(FATAL_ERROR
+        "Build environment variable LIBHAL_PLATFORM_LIBRARY is required for " "this project.")
+endif()
+
+find_package(libhal-${platform_library} REQUIRED CONFIG)
 find_package(libhal-__device__ REQUIRED CONFIG)
 find_package(libhal-util REQUIRED CONFIG)
 
 set(DEMOS __device__)
-set(TARGETS lpc4078 lpc4074)
 
-foreach(target IN LISTS TARGETS)
-    foreach(demo IN LISTS DEMOS)
-        set(current_project ${target}_${demo}.elf)
-        message(STATUS "Generating Demo for \"${current_project}\"")
-        add_executable(${current_project}
-            main.cpp
-            newlib.cpp
-            targets/${target}/initializer.cpp
-            applications/${demo}.cpp)
-        target_include_directories(${current_project} PUBLIC
-            ./
-            targets/${target})
-        target_compile_features(${current_project} PRIVATE cxx_std_20)
-        target_link_options(${current_project} PRIVATE -u _printf_float)
-        target_link_libraries(${current_project} PRIVATE
-            libhal::${target}
-            libhal::__device__
-            libhal::util)
-        arm_post_build(${current_project})
-    endforeach()
+add_library(startup_code
+    main.cpp
+    targets/${platform}.cpp)
+target_include_directories(startup_code PUBLIC .)
+target_compile_features(startup_code PRIVATE cxx_std_20)
+target_link_libraries(startup_code PRIVATE
+    libhal::${platform_library}
+    libhal::__device__
+    libhal::util)
+
+foreach(demo IN LISTS DEMOS)
+    set(current_project ${demo}.elf)
+    message(STATUS "Generating Demo for \"${current_project}\"")
+    add_executable(${current_project} applications/${demo}.cpp)
+    target_include_directories(${current_project} PUBLIC .)
+    target_compile_features(${current_project} PRIVATE cxx_std_20)
+    target_link_libraries(${current_project} PRIVATE
+        libhal::${platform_library}
+        libhal::__device__
+        libhal::util
+        startup_code)
+    libhal_post_build(${current_project})
 endforeach()

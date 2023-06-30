@@ -74,4 +74,5 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
   boost-ext-ut::ut
   libhal::libhal
   libhal::util
-  libhal::mock)
+  libhal::mock
+  libhal-__device__)

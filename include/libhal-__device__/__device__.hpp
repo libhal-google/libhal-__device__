@@ -15,5 +15,6 @@
 #pragma once
 
 namespace hal::__device__ {
-// Add API here!
+class __device___replace_me
+{};
 }  // namespace hal::__device__
