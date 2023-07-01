@@ -56,12 +56,14 @@ class libhal___device___conan(ConanFile):
         if self.settings.get_safe("compiler.cppstd"):
             check_min_cppstd(self, self._min_cppstd)
 
-    def requirements(self):
-        self.requires("libhal/[^2.0.0]")
-        self.build_requires("libhal-util/[^2.1.0]")
+    def build_requirements(self):
         self.tool_requires("libhal-cmake-util/1.0.0")
+        self.build_requires("libhal-util/[^2.1.0]")
         self.test_requires("libhal-mock/[^2.0.0]")
         self.test_requires("boost-ext-ut/1.1.9")
+
+    def requirements(self):
+        self.requires("libhal/[^2.0.0]")
 
     def layout(self):
         cmake_layout(self)
