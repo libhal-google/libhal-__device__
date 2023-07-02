@@ -34,7 +34,7 @@ set(DEMOS __device__)
 
 add_library(startup_code
     main.cpp
-    targets/${platform}.cpp)
+    platforms/${platform}.cpp)
 target_include_directories(startup_code PUBLIC .)
 target_compile_features(startup_code PRIVATE cxx_std_20)
 target_link_libraries(startup_code PRIVATE
