@@ -28,7 +28,7 @@ hal::status application(hardware_map& p_map)
   hal::print(console, "Demo Application Starting...\n\n");
 
   while (true) {
-    HAL_CHECK(hal::delay(clock, 500ms));
+    hal::delay(clock, 500ms);
     hal::print(console, "Hello, world\n");
   }
 
