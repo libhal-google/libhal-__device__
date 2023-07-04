@@ -31,11 +31,16 @@ merchantability, or fitness for a particular purpose.
 
 To make your own libhal library:
 
-- press the green "Use this Template" button then
-- press the "Create a new repository".
-- Name it `libhal-<insert_device_name>` and replace `<insert_device_name>` with
+1. press the green "Use this Template" button then
+2. press the "Create a new repository".
+3. Name it `libhal-<insert_device_name>` and replace `<insert_device_name>` with
   the name of the device's family. For exmaple, if you want to make a library
   for the MPU series of IMUs then call it `libhal-mpu`.
+4. Choose where to put the repo under,
+5. Go to `settings` > `Pages` > `Build and deployment` > `Source` and set the
+  source to `Github Actions`.
+6. Go to `Pull Requests` and merge the library rename pull request.
+7. Done!
 
 ## About the libhal-device template
 
@@ -68,11 +73,12 @@ Conan should build your project and its dependencies.
 
 This directory is intended for storing datasheets related to the device that the
 library is being built for. It currently contains a placeholder file,
-`put_datasheets_here.md`. Many datasheets are subject to copyright and that must
-be considered when adding the datasheet to a libhal repo. If the datasheet
-cannot be redistributed on the repo for copyright and/or license reasons, then
-a markdown file with a link to the datasheet (and potentially mirrors of it) is
-an acceptable alternative.
+`put_datasheets_here.md`.
+
+Many datasheets are subject to copyright and that must be considered when adding
+the datasheet to a libhal repo. If the datasheet cannot be redistributed on the
+repo for copyright and/or license reasons, then a markdown file with a link to
+the datasheet (and potentially mirrors of it) is an acceptable alternative.
 
 ### demos
 
