@@ -6,7 +6,6 @@
 [![GitHub stars](https://img.shields.io/github/stars/libhal/libhal-__device__.svg)](https://github.com/libhal/libhal-__device__/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/libhal/libhal-__device__.svg)](https://github.com/libhal/libhal-__device__/network)
 [![GitHub issues](https://img.shields.io/github/issues/libhal/libhal-__device__.svg)](https://github.com/libhal/libhal-__device__/issues)
-[![Latest Version](https://libhal.github.io/libhal-__device__/latest_version.svg)](https://github.com/libhal/libhal-__device__/blob/main/conanfile.py)
 
 libhal compatible device library for the __device__ device.
 
