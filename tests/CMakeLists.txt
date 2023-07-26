@@ -45,7 +45,14 @@ find_package(libhal-util REQUIRED CONFIG)
 find_package(libhal-mock REQUIRED CONFIG)
 
 add_executable(${PROJECT_NAME}
+
+  # Source files
+  ../src/__device__.cpp
+
+  # Test source files
   __device__.test.cpp
+
+  # Main file for test
   main.test.cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC . ../include)
@@ -74,5 +81,4 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
   boost-ext-ut::ut
   libhal::libhal
   libhal::util
-  libhal::mock
-  libhal-__device__)
+  libhal::mock)
