@@ -24,8 +24,7 @@
 
 hal::status initialize_processor()
 {
-  hal::cortex_m::initialize_data_section();
-
+  // Handled by picolibc's crt0.s
   return hal::success();
 }
 
