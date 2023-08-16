@@ -48,6 +48,8 @@ foreach(demo IN LISTS DEMOS)
     add_executable(${current_project} applications/${demo}.cpp)
     target_include_directories(${current_project} PUBLIC .)
     target_compile_features(${current_project} PRIVATE cxx_std_20)
+    target_compile_options(${current_project} PRIVATE -g)
+    target_link_options(${current_project} PRIVATE --oslib=semihost)
     target_link_libraries(${current_project} PRIVATE
         libhal::${platform_library}
         libhal::__device__
