@@ -14,9 +14,6 @@
 
 #include "hardware_map.hpp"
 
-#include <sys/stat.h>
-#include <unistd.h>
-
 int main()
 {
   auto processor_status = initialize_processor();
