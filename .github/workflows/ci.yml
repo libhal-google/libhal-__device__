@@ -30,8 +30,6 @@ on:
 jobs:
   ci:
     uses: libhal/ci/.github/workflows/library.yml@4.x.y
-    with:
-      coverage: true
     secrets: inherit
   deploy:
     uses: libhal/ci/.github/workflows/deploy.yml@4.x.y
