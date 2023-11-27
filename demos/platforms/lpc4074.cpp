@@ -22,12 +22,6 @@
 
 #include "../hardware_map.hpp"
 
-hal::status initialize_processor()
-{
-  // Handled by picolibc's crt0.s
-  return hal::success();
-}
-
 hal::result<hardware_map> initialize_platform()
 {
   using namespace hal::literals;

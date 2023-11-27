@@ -11,26 +11,25 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 cmake_minimum_required(VERSION 3.15)
 
-project(libhal-__device__ VERSION 0.0.1 LANGUAGES CXX)
+project(libhal-__device__ LANGUAGES CXX)
 
-find_package(libhal REQUIRED CONFIG)
-find_package(libhal-util REQUIRED CONFIG)
+libhal_test_and_make_library(
+  LIBRARY_NAME libhal-__device__
 
-add_library(libhal-__device__ src/__device__.cpp)
+  SOURCES
+  src/__device__.cpp
 
-target_include_directories(libhal-__device__ PUBLIC include)
-target_compile_features(libhal-__device__ PRIVATE cxx_std_20)
-target_compile_options(libhal-__device__ PRIVATE -Wall -Wextra)
-target_link_libraries(libhal-__device__ PRIVATE
+  TEST_SOURCES
+  tests/__device__.test.cpp
+  tests/main.test.cpp
+
+  PACKAGES
+  libhal
+  libhal-util
+
+  LINK_LIBRARIES
   libhal::libhal
   libhal::util
 )
-
-if(NOT BUILD_TESTING STREQUAL OFF)
-  add_subdirectory(tests)
-endif()
-
-install(TARGETS libhal-__device__)
