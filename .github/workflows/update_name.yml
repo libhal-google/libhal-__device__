@@ -39,6 +39,9 @@ jobs:
       - name: Replace placeholder's in files
         run: find . -type f -not -path '*/\.git/*' -exec sed -i "s/__device__/${{ env.device_name }}/g" {} +
 
+      - name: Replace "// NOLINT" in files
+        run: find . -type f -not -path '*/\.git/*' -exec sed -i "s/[ ]*\/\/ NOLINT//g" {} +
+
       - name: Replace placeholder's in directory names
         run: find . -type d -not -path '*/\.git/*' | xargs -r rename "s/__device__/${{ env.device_name }}/g"
 

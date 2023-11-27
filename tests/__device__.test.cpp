@@ -16,8 +16,8 @@
 
 #include <boost/ut.hpp>
 
-namespace hal::__device__ {
-void __device___test()
+namespace hal::__device__ {  // NOLINT
+void __device___test()       // NOLINT
 {
   using namespace boost::ut;
   using namespace std::literals;
